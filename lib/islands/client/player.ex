@@ -7,7 +7,7 @@ defmodule Islands.Client.Player do
   @course_ref Application.get_env(@app, :course_ref)
 
   @moduledoc """
-  Models a player for clients of the _Game of Islands_.
+  Models a `player` in the _Game of Islands_.
   \n##### #{@course_ref}
   """
 
