@@ -25,7 +25,8 @@ defmodule Islands.Client.Player do
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
     state |> Summary.display() |> GameOver.message() |> ANSI.puts()
-    GameOver.clear_messages()
+    # GameOver.clear_messages()
+    :lib.flush_receive()
     self() |> Process.exit(:normal)
   end
 
