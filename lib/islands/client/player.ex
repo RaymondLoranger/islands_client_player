@@ -9,7 +9,7 @@ defmodule Islands.Client.Player do
   """
 
   alias IO.ANSI.Plus, as: ANSI
-  alias Islands.Client.{GameOver, Input, Mover, React, State, Summary}
+  alias Islands.Client.{GameOver, Input, Mover, React, State}
   alias Islands.Tally
 
   # :initialized, :players_set, :player1_turn, :player2_turn, :game_over
@@ -21,14 +21,16 @@ defmodule Islands.Client.Player do
 
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
-    Summary.display(state) |> GameOver.message() |> ANSI.puts()
-    GameOver.clear_messages()
+    :ok = Tally.summary(state.tally, state.player_id)
+    :ok = GameOver.message(state) |> ANSI.puts()
+    :ok = GameOver.clear_messages()
     self() |> Process.exit(:normal)
   end
 
   defp continue(state) do
+    :ok = Tally.summary(state.tally, state.player_id)
+
     state
-    |> Summary.display()
     |> Input.accept_move()
     |> Mover.make_move()
     |> play()
