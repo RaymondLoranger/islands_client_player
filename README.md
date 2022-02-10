@@ -1,6 +1,6 @@
 # Islands Client Player
 
-Models a `player` in the _Game of Islands_.
+Models a player in the _Game of Islands_.
 
 ## Installation
 

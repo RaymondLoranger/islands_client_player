@@ -3,7 +3,7 @@
 # └─────────────────────────────────────────────────────────────────┘
 defmodule Islands.Client.Player do
   @moduledoc """
-  Models a `player` in the _Game of Islands_.
+  Models a player in the _Game of Islands_.
 
   ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
@@ -12,6 +12,9 @@ defmodule Islands.Client.Player do
   alias Islands.Client.{GameOver, Input, Mover, React, State}
   alias Islands.Tally
 
+  @doc """
+  Reacts to a client state, makes a move and repeats until the game is over.
+  """
   # :initialized, :players_set, :player1_turn, :player2_turn, :game_over
   @spec play(State.t()) :: no_return
   def play(%State{tally: %Tally{game_state: game_state}} = state),
