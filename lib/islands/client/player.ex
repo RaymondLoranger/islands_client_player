@@ -8,7 +8,6 @@ defmodule Islands.Client.Player do
   ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
 
-  alias IO.ANSI.Plus, as: ANSI
   alias Islands.Client.{GameOver, Input, Mover, React, State}
   alias Islands.Tally
 
@@ -24,10 +23,7 @@ defmodule Islands.Client.Player do
 
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
-    :ok = Tally.summary(state.tally, state.player_id)
-    :ok = GameOver.message(state) |> ANSI.puts()
-    :ok = GameOver.clear_messages()
-    self() |> Process.exit(:normal)
+    GameOver.end_game(state)
   end
 
   defp continue(state) do
