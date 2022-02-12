@@ -12,7 +12,7 @@ defmodule Islands.Client.Player do
   alias Islands.Tally
 
   @doc """
-  Reacts to a client state, makes a move and repeats until the game is over.
+  Reacts to a game state, makes a move and repeats until the game is over.
 
   Player1 reacts to game state:
 
@@ -36,9 +36,10 @@ defmodule Islands.Client.Player do
 
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
-    # Assuming this player caused the `:game_over`.
-    # Hence only the opponent will stop the game...
-    GameOver.end_game(state, _notified? = false)
+    # This player was notified of the `:game_over` game state.
+    # Hence the oppponent caused the `:game_over` game state.
+    # Only this player will request to stop the game server.
+    GameOver.end_game(state, _notified? = true)
   end
 
   defp continue(state) do
