@@ -13,6 +13,19 @@ defmodule Islands.Client.Player do
 
   @doc """
   Reacts to a client state, makes a move and repeats until the game is over.
+
+  Player1 reacts to game state:
+
+  - `:initialized` by waiting for game state `:players_set`
+  - `:players_set` by waiting for game state `:player1_turn`
+  - `:player2_turn` by waiting for game state `:player1_turn` or `:game_over`
+  - `:game_over` by ending the game
+
+  Player2 reacts to game state:
+
+  - `:players_set` by waiting for game state `:player2_turn`
+  - `:player1_turn` by waiting for game state `:player2_turn` or `:game_over`
+  - `:game_over` by ending the game
   """
   # :initialized, :players_set, :player1_turn, :player2_turn, :game_over
   @spec play(State.t()) :: no_return
@@ -23,7 +36,9 @@ defmodule Islands.Client.Player do
 
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
-    GameOver.end_game(state)
+    # Assuming this player caused the `:game_over`.
+    # Hence only the opponent will stop the game...
+    GameOver.end_game(state, _notified? = false)
   end
 
   defp continue(state) do
