@@ -37,9 +37,8 @@ defmodule Islands.Client.Player do
   @spec continue(State.t()) :: no_return
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
     # This player was notified of the `:game_over` game state.
-    # Hence the oppponent caused the `:game_over` game state.
-    # Only this player will request to stop the game server.
-    GameOver.end_game(state, _notified? = true)
+    # The oppponent player caused the `:game_over` game state.
+    GameOver.exit(state, _end_game? = false)
   end
 
   defp continue(state) do
