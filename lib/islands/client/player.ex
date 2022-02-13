@@ -29,8 +29,13 @@ defmodule Islands.Client.Player do
   """
   # :initialized, :players_set, :player1_turn, :player2_turn, :game_over
   @spec play(State.t()) :: no_return
-  def play(%State{tally: %Tally{game_state: game_state}} = state),
-    do: React.react_to(state, game_state) |> continue()
+  def play(%State{tally: %Tally{game_state: game_state}} = state) do
+    React.react_to(state, game_state) |> continue()
+  end
+
+  def play(_error) do
+    self() |> Process.exit(:normal)
+  end
 
   ## Private functions
 
@@ -38,7 +43,7 @@ defmodule Islands.Client.Player do
   defp continue(%State{tally: %Tally{game_state: :game_over}} = state) do
     # This player was notified of the `:game_over` game state.
     # The oppponent player caused the `:game_over` game state.
-    GameOver.exit(state, _end_game? = false)
+    GameOver.exit(state, end_game: false)
   end
 
   defp continue(state) do
