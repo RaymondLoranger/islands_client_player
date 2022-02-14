@@ -19,13 +19,13 @@ defmodule Islands.Client.Player do
   - `:initialized` by waiting for game state `:players_set`
   - `:players_set` by waiting for game state `:player1_turn`
   - `:player2_turn` by waiting for game state `:player1_turn` or `:game_over`
-  - `:game_over` by ending the game
+  - `:game_over` by exiting the game
 
   Player2 reacts to game state:
 
   - `:players_set` by waiting for game state `:player2_turn`
   - `:player1_turn` by waiting for game state `:player2_turn` or `:game_over`
-  - `:game_over` by ending the game
+  - `:game_over` by exiting the game
   """
   # :initialized, :players_set, :player1_turn, :player2_turn, :game_over
   @spec play(State.t()) :: no_return
